@@ -1,0 +1,38 @@
+provisioner:
+  name: chef_zero
+  role_path: roles
+  data_path: test/profiles
+
+transport:
+  password: SecurePassword
+  elevated: true
+
+verifier:
+  name: inspec
+
+platforms:
+
+  - name: windows-2012r2
+    driver:
+      name: hyperv
+      parent_vhd_folder: C:\Users\Public\Documents\Hyper-V\Virtual hard disks
+      parent_vhd_name: some2012r2.vhdx
+      vm_switch: '"Default Switch"'
+      memory_startup_bytes: 4GB
+
+  - name: windows-2016
+    driver:
+      name: hyperv
+      parent_vhd_folder: C:\Users\Public\Documents\Hyper-V\Virtual hard disks
+      parent_vhd_name: some2016.vhdx
+      vm_switch: '"Default Switch"'
+      memory_startup_bytes: 4GB
+
+suites:
+  - name: nameTheseTests
+    run_list:
+      - recipe[your_cookbook]
+    verifier:
+      inspec_tests:
+        - test/integration/yourTests/
+    attributes:
